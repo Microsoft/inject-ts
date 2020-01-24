@@ -239,7 +239,7 @@ class InternalDependencyContainer implements DependencyContainer {
     const registrations = this.getAllRegistrations(token);
 
     if (!registrations && isNormalToken(token)) {
-      throw `Attempted to resolve unregistered dependency token: ${token.toString()}`;
+      return [];
     }
 
     if (registrations) {

@@ -205,10 +205,19 @@ test("resolves anonymous classes separately", () => {
 
 // --- resolveAll() ---
 
-test("fails to resolveAll unregistered dependency by name", () => {
-  expect(() => {
-    globalContainer.resolveAll("NotRegistered");
-  }).toThrow();
+test("resolves an empty array in case of unregistered dependency by name", () => {
+  const array = globalContainer.resolveAll("NotRegistered");
+  expect(Array.isArray(array)).toBeTruthy();
+  expect(array.length).toBe(0);
+});
+
+test("resolves an array of a single instance in case of unregistered dependency by class constructor", () => {
+  class Foo {}
+
+  const fooArray = globalContainer.resolveAll<Foo>(Foo);
+  expect(Array.isArray(fooArray)).toBeTruthy();
+  expect(fooArray.length).toBe(1);
+  expect(fooArray[0]).toBeInstanceOf(Foo);
 });
 
 test("resolves an array of transient instances bound to a single interface", () => {

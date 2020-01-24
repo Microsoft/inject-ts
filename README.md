@@ -178,6 +178,10 @@ class Foo {
 Parameter decorator for array parameters where the array contents will come from the container.
 It will inject an array using the specified injection token to resolve the values.
 
+If nothing is registered for the specified token and the token is a string or a symbol, it will inject an empty array.
+If nothing is registered for the specified token and the token is a class constructor, it will inject an array
+with a single instance of the class.
+
 #### Usage
 
 ```typescript
@@ -368,7 +372,7 @@ const myFoo = container.resolve(Foo);
 const myBar = container.resolve<Bar>("Bar");
 ```
 
-You can also resolve all instances registered against a given token with `resolveAll()`.
+You can also resolve all instances registered against a given token with `**`resolveAll(`**)`.
 
 ```typescript
 interface Bar {}
