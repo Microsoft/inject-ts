@@ -21,6 +21,7 @@ constructor injection.
     - [injectWithTransform()](#injectWithTransform)
     - [injectAllWithTransform()](#injectAllWithTransform)
     - [scoped()](#scoped)
+    - [injectableAll()](#injectableall)
   - [Container](#container)
     - [Injection Token](#injection-token)
     - [Providers](#providers)
@@ -303,6 +304,25 @@ Class decorator factory that registers the class as a scoped dependency within t
 ```typescript
 @scoped(Lifecycle.ContainerScoped)
 class Foo {}
+```
+
+### injectableAll()
+
+ Class decorator factory that registers the classes with the same token within
+ the global container
+#### Usage
+
+```typescript
+@injectableAll('tags')
+class Foo {}
+
+@injectableAll('tags')
+class Bar {}
+
+@injectable()
+class FooBar {
+    constructor(@injectAll('tags') private fooBars: any[]) {}
+}
 ```
 
 ## Container

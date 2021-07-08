@@ -7,3 +7,5 @@ export {default as injectAll} from "./inject-all";
 export {default as injectAllWithTransform} from "./inject-all-with-transform";
 export {default as injectWithTransform} from "./inject-with-transform";
 export {default as scoped} from "./scoped";
+export {default as injectableAll} from "./injectable-all";
+
