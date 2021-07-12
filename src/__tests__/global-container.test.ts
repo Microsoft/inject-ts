@@ -684,6 +684,55 @@ test("allows explicit array dependencies to be resolved by inject decorator", ()
   expect(bar.foo === fooArray).toBeTruthy();
 });
 
+test("allows inject to provide a default value, which will be used if not registered in other ways", () => {
+  @injectable()
+  class Foo {}
+
+  const fooArray = [new Foo()];
+
+  @injectable()
+  class Bar {
+    constructor(@inject("FooArray", {useValue: fooArray}) public foo: Foo[]) {}
+  }
+
+  globalContainer.register<Bar>(Bar, {useClass: Bar});
+
+  const bar = globalContainer.resolve<Bar>(Bar);
+  expect(bar.foo === fooArray).toBeTruthy();
+});
+
+test("allows inject to provide a default value, if injected afterwards it will be overwritten", () => {
+  @injectable()
+  class Bar {
+    constructor(
+      @inject("MyString", {useValue: "MyDefaultString"}) public foo: string
+    ) {}
+  }
+  const str = "NewString";
+  globalContainer.register("MyString", {useValue: str});
+
+  globalContainer.register<Bar>(Bar, {useClass: Bar});
+
+  const bar = globalContainer.resolve<Bar>(Bar);
+  expect(bar.foo === str).toBeTruthy();
+});
+
+test("allows inject to have other kinds of provider", () => {
+  @injectable()
+  class Bar implements IBar {
+    public value = "";
+  }
+
+  @injectable()
+  class FooWithInterface {
+    constructor(@inject("IBar", {useClass: Bar}) public myBar: IBar) {}
+  }
+
+  const myFoo = globalContainer.resolve(FooWithInterface);
+
+  expect(myFoo.myBar instanceof Bar).toBeTruthy();
+});
+
 // --- @injectAll ---
 
 test("injects all dependencies bound to a given interface", () => {
