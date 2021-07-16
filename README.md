@@ -70,7 +70,7 @@ Modify your `tsconfig.json` to include the following settings
 Add a polyfill for the Reflect API (examples below use reflect-metadata). You can use:
 
 - [reflect-metadata](https://www.npmjs.com/package/reflect-metadata)
-- [core-js (core-js/es7/reflect)](https://www.npmjs.com/package/core-js)
+- [core-js (core-js/proposals/reflect-metadata)](https://www.npmjs.com/package/core-js)
 - [reflection](https://www.npmjs.com/package/@abraham/reflection)
 
 The Reflect polyfill import should only be added once, and before DI is used:
